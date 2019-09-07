@@ -1,8 +1,9 @@
 import React from 'react';
+import Routes from './routes';
 import './App.css';
 
 function App() {
-  return <h1>Hello WhyFood</h1>;
+  return <Routes />;
 }
 
 export default App;
