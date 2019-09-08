@@ -36,7 +36,6 @@ export default class Main extends Component {
       products: [],
       detail: {},
     };
-    this.baseState = this.state;
   }
 
   async componentDidMount() {
@@ -69,6 +68,11 @@ export default class Main extends Component {
 
   render() {
     const { products, detail } = this.state;
+    const formatter = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+
     return (
       <>
         <Header />
@@ -80,7 +84,7 @@ export default class Main extends Component {
               onClickCapture={(e) => this.handleClickCard(e)}
             >
               <CardTitle>{product.name}</CardTitle>
-              <CardPrice>{product.price}</CardPrice>
+              <CardPrice>{formatter.format(product.price)}</CardPrice>
             </Card>
           ))}
         </Container>
@@ -90,7 +94,7 @@ export default class Main extends Component {
               <ModalHeader>
                 <ModalClose onClickCapture={this.handleClickModalClose} />
                 <ModalName>{detail.name}</ModalName>
-                <ModalPrice>{detail.price}</ModalPrice>
+                <ModalPrice>{formatter.format(detail.price)}</ModalPrice>
                 <ModalImg src={detail.image_url} />
               </ModalHeader>
               <ModalContent>
@@ -107,7 +111,7 @@ export default class Main extends Component {
                         option.values.length && option.values.map((value) =>
                           <ModalOptionList key={value.id}>
                             <ModalOptionName>{value.name}</ModalOptionName>
-                            <ModalOptionPrice>{value.price}</ModalOptionPrice>
+                            <ModalOptionPrice>{formatter.format(value.price)}</ModalOptionPrice>
                             <ModalOptionSelect />
                           </ModalOptionList>
                         )}
