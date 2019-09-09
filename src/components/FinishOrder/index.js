@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FaWindowClose } from 'react-icons/fa';
 import { TiMinus, TiPlus } from 'react-icons/ti';
 
@@ -113,5 +114,83 @@ const Footer = ({ formatter }) => (
     </ModalFooter>
   </>
 );
+
+FinishOrder.propTypes = {
+  formatter: PropTypes.func.isRequired,
+  detail: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    image_url: PropTypes.string,
+    price: PropTypes.number,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        type: PropTypes.string,
+        title: PropTypes.string,
+        required: PropTypes.bool,
+        values: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number,
+            name: PropTypes.string,
+            price: PropTypes.number,
+          })
+        ).isRequired,
+      }).isRequired
+    ),
+  }).isRequired,
+  handleClickModalClose: PropTypes.func.isRequired,
+};
+Header.propTypes = {
+  formatter: PropTypes.func.isRequired,
+  detail: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    image_url: PropTypes.string,
+    price: PropTypes.number,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        type: PropTypes.string,
+        title: PropTypes.string,
+        required: PropTypes.bool,
+        values: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number,
+            name: PropTypes.string,
+            price: PropTypes.number,
+          })
+        ).isRequired,
+      }).isRequired
+    ),
+  }).isRequired,
+  handleClickModalClose: PropTypes.func.isRequired,
+};
+Content.propTypes = {
+  formatter: PropTypes.func.isRequired,
+  detail: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    image_url: PropTypes.string,
+    price: PropTypes.number,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        type: PropTypes.string,
+        title: PropTypes.string,
+        required: PropTypes.bool,
+        values: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number,
+            name: PropTypes.string,
+            price: PropTypes.number,
+          })
+        ).isRequired,
+      }).isRequired
+    ),
+  }).isRequired,
+};
+Footer.propTypes = {
+  formatter: PropTypes.func.isRequired,
+};
 
 export default FinishOrder;
