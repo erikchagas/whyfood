@@ -242,6 +242,8 @@ export const ModalConfirm = styled.button`
   border: 0px none rgb(255, 255, 255);
   border-radius: 4px;
   margin-top: -8px;
+  background-color: ${props => (props.validated ? '#ea1d2c' : 'unsets')};
+  pointer-events: ${props => (props.validated ? 'auto' : 'none')};
 `;
 
 export const ModalConfirmTitle = styled.span`
