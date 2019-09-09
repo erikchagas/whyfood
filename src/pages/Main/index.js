@@ -22,6 +22,7 @@ export default class Main extends Component {
         obs: '',
         items: []
       },
+      totalPrice: 0
     };
   }
 
@@ -56,16 +57,20 @@ export default class Main extends Component {
     });
 
     this.setState({
+      totalPrice: response.data.price,
+    })
+
+    this.setState({
       order: {
         id: id,
         obs: '',
-        items: [...order.items, ...shapeOptions]
+        items: [...order.items, ...shapeOptions],
       },
     }, () => console.log('after handleClickCard -> ', this.state));
 
   }
 
-  handleClickModalClose = () =>{
+  handleClickModalClose = () => {
     this.setState({
       detail: {},
       order: {
@@ -77,21 +82,29 @@ export default class Main extends Component {
   }
 
   handleChangeModalOptionRadio = (e) => {
-    const { order } = this.state;
+    const { detail, totalPrice } = this.state;
     const option = Number(e.target.dataset.option);
-    const value  = Number(e.target.value);
+    const value  = Number(e.target.dataset.value);
 
-    var index = order.items.findIndex((element) =>{
+    let indexOption = detail.options.findIndex((element) =>{
       return element.id === option;
     });
 
+    let indexValue = detail.options[indexOption].values.findIndex((element) =>{
+      return element.id === value;
+    });
+
     let newState = Object.assign({}, this.state);
-    newState.order.items[index].value = value;
+    newState.order.items[indexOption].value = value;
     this.setState(newState, () => console.log('handleChangeModalOptionRadio --> ', this.state));
+
+    this.setState({
+      totalPrice: totalPrice + detail.options[indexOption].values[indexValue].price
+    })
   }
 
   render() {
-    const { products, detail, order } = this.state;
+    const { products, detail, order, totalPrice } = this.state;
     const formatter = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
@@ -119,6 +132,7 @@ export default class Main extends Component {
             order={order}
             handleClickModalClose={this.handleClickModalClose}
             handleChangeModalOptionRadio={this.handleChangeModalOptionRadio}
+            totalPrice={totalPrice}
           />
         )}
       </>
