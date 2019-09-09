@@ -116,7 +116,9 @@ const Footer = ({ formatter }) => (
 );
 
 FinishOrder.propTypes = {
-  formatter: PropTypes.func.isRequired,
+  formatter: PropTypes.PropTypes.shape({
+    format: PropTypes.func,
+  }).isRequired,
   detail: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
@@ -141,7 +143,9 @@ FinishOrder.propTypes = {
   handleClickModalClose: PropTypes.func.isRequired,
 };
 Header.propTypes = {
-  formatter: PropTypes.func.isRequired,
+  formatter: PropTypes.PropTypes.shape({
+    format: PropTypes.func,
+  }).isRequired,
   detail: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
@@ -166,7 +170,9 @@ Header.propTypes = {
   handleClickModalClose: PropTypes.func.isRequired,
 };
 Content.propTypes = {
-  formatter: PropTypes.func.isRequired,
+  formatter: PropTypes.PropTypes.shape({
+    format: PropTypes.func,
+  }).isRequired,
   detail: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
@@ -190,7 +196,9 @@ Content.propTypes = {
   }).isRequired,
 };
 Footer.propTypes = {
-  formatter: PropTypes.func.isRequired,
+  formatter: PropTypes.PropTypes.shape({
+    format: PropTypes.func,
+  }).isRequired,
 };
 
 export default FinishOrder;
