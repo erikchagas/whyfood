@@ -37,6 +37,7 @@ const FinishOrder = ({
   order,
   handleClickModalClose,
   handleChangeModalOptionRadio,
+  totalPrice,
 }) => (
   <>
     <Modal key={detail.id} id={detail.id}>
@@ -52,7 +53,7 @@ const FinishOrder = ({
           order={order}
           handleChangeModalOptionRadio={handleChangeModalOptionRadio}
         />
-        <Footer formatter={formatter} />
+        <Footer formatter={formatter} totalPrice={totalPrice} />
       </ModalCard>
     </Modal>
   </>
@@ -102,7 +103,7 @@ const Content = ({
                         type="radio"
                         name={option.title}
                         data-option={option.id}
-                        value={value.id}
+                        data-value={value.id}
                         onChangeCapture={handleChangeModalOptionRadio}
                       />
                     ) : (
@@ -121,7 +122,7 @@ const Content = ({
   </>
 );
 
-const Footer = ({ formatter }) => (
+const Footer = ({ formatter, totalPrice }) => (
   <>
     <ModalFooter>
       <ModalCounter>
@@ -131,7 +132,7 @@ const Footer = ({ formatter }) => (
       </ModalCounter>
       <ModalConfirm>
         <ModalConfirmTitle>Adicionar</ModalConfirmTitle>
-        <ModalConfirmValue>{formatter.format(10)}</ModalConfirmValue>
+        <ModalConfirmValue>{formatter.format(totalPrice)}</ModalConfirmValue>
       </ModalConfirm>
     </ModalFooter>
   </>
@@ -172,7 +173,8 @@ FinishOrder.propTypes = {
     }).isRequired,
   }).isRequired,
   handleClickModalClose: PropTypes.func.isRequired,
-  handleChangeModalOptionRadio: PropTypes.func,
+  handleChangeModalOptionRadio: PropTypes.func.isRequired,
+  totalPrice: PropTypes.number.isRequired,
 };
 Header.propTypes = {
   formatter: PropTypes.PropTypes.shape({
@@ -235,12 +237,13 @@ Content.propTypes = {
       type: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  handleChangeModalOptionRadio: PropTypes.func,
+  handleChangeModalOptionRadio: PropTypes.func.isRequired,
 };
 Footer.propTypes = {
   formatter: PropTypes.PropTypes.shape({
     format: PropTypes.func,
   }).isRequired,
+  totalPrice: PropTypes.number.isRequired,
 };
 
 export default FinishOrder;
