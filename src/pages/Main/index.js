@@ -17,6 +17,11 @@ export default class Main extends Component {
     this.state = {
       products: [],
       detail: {},
+      order: {
+        id: '',
+        obs: '',
+        items: []
+      },
     };
   }
 
@@ -31,25 +36,62 @@ export default class Main extends Component {
   }
 
   async handleClickCard(e) {
-    const { detail } = this.state;
+    const id = Number(e.currentTarget.dataset.id);
+    const { detail, order } = this.state;
 
-    const response = await api.get(`/products/${e.currentTarget.id}`);
+    const response = await api.get(`/products/${id}`);
 
     if (response.data) {
       this.setState({
         detail: { ...detail, ...response.data },
       });
     }
+
+    const shapeOptions = [];
+    response.data.options.forEach(element => {
+      shapeOptions.push({
+        id: element.id,
+        type: element.type
+      });
+    });
+
+    this.setState({
+      order: {
+        id: id,
+        obs: '',
+        items: [...order.items, ...shapeOptions]
+      },
+    }, () => console.log('after handleClickCard -> ', this.state));
+
   }
 
   handleClickModalClose = () =>{
     this.setState({
       detail: {},
+      order: {
+        id: '',
+        obs: '',
+        items: []
+      }
+    }, () => console.log('after handleClickModalClose -> ', this.state));
+  }
+
+  handleChangeModalOptionRadio = (e) => {
+    const { order } = this.state;
+    const option = Number(e.target.dataset.option);
+    const value  = Number(e.target.value);
+
+    var index = order.items.findIndex((element) =>{
+      return element.id === option;
     });
+
+    let newState = Object.assign({}, this.state);
+    newState.order.items[index].value = value;
+    this.setState(newState, () => console.log('handleChangeModalOptionRadio --> ', this.state));
   }
 
   render() {
-    const { products, detail } = this.state;
+    const { products, detail, order } = this.state;
     const formatter = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
@@ -62,7 +104,7 @@ export default class Main extends Component {
           {products.map((product) => (
             <Card
               key={product.id}
-              id={product.id}
+              data-id={product.id}
               onClickCapture={(e) => this.handleClickCard(e)}
             >
               <CardTitle>{product.name}</CardTitle>
@@ -74,7 +116,9 @@ export default class Main extends Component {
           <FinishOrder
             formatter={formatter}
             detail={detail}
+            order={order}
             handleClickModalClose={this.handleClickModalClose}
+            handleChangeModalOptionRadio={this.handleChangeModalOptionRadio}
           />
         )}
       </>
