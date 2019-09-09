@@ -31,7 +31,13 @@ import {
   ModalConfirmValue,
 } from './styles';
 
-const FinishOrder = ({ formatter, detail, handleClickModalClose }) => (
+const FinishOrder = ({
+  formatter,
+  detail,
+  order,
+  handleClickModalClose,
+  handleChangeModalOptionRadio,
+}) => (
   <>
     <Modal key={detail.id} id={detail.id}>
       <ModalCard>
@@ -40,7 +46,12 @@ const FinishOrder = ({ formatter, detail, handleClickModalClose }) => (
           detail={detail}
           handleClickModalClose={handleClickModalClose}
         />
-        <Content formatter={formatter} detail={detail} />
+        <Content
+          formatter={formatter}
+          detail={detail}
+          order={order}
+          handleChangeModalOptionRadio={handleChangeModalOptionRadio}
+        />
         <Footer formatter={formatter} />
       </ModalCard>
     </Modal>
@@ -60,7 +71,12 @@ const Header = ({ formatter, detail, handleClickModalClose }) => (
   </>
 );
 
-const Content = ({ formatter, detail }) => (
+const Content = ({
+  formatter,
+  detail,
+  order,
+  handleChangeModalOptionRadio,
+}) => (
   <>
     <ModalContent>
       {detail.options.length &&
@@ -82,7 +98,13 @@ const Content = ({ formatter, detail }) => (
                   </ModalOptionPrice>
                   <ModalOptionSelect>
                     {option.type === 'single' ? (
-                      <ModalOptionRadio type="radio" />
+                      <ModalOptionRadio
+                        type="radio"
+                        name={option.title}
+                        data-option={option.id}
+                        value={value.id}
+                        onChangeCapture={handleChangeModalOptionRadio}
+                      />
                     ) : (
                       <ModalCounter>
                         <TiMinus />
@@ -140,7 +162,17 @@ FinishOrder.propTypes = {
       }).isRequired
     ),
   }).isRequired,
+  order: PropTypes.shape({
+    id: PropTypes.number,
+    obs: PropTypes.string,
+    items: PropTypes.arrayOf({
+      id: PropTypes.number,
+      value: PropTypes.number,
+      type: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
   handleClickModalClose: PropTypes.func.isRequired,
+  handleChangeModalOptionRadio: PropTypes.func,
 };
 Header.propTypes = {
   formatter: PropTypes.PropTypes.shape({
@@ -194,6 +226,16 @@ Content.propTypes = {
       }).isRequired
     ),
   }).isRequired,
+  order: PropTypes.shape({
+    id: PropTypes.number,
+    obs: PropTypes.string,
+    items: PropTypes.arrayOf({
+      id: PropTypes.number,
+      value: PropTypes.number,
+      type: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+  handleChangeModalOptionRadio: PropTypes.func,
 };
 Footer.propTypes = {
   formatter: PropTypes.PropTypes.shape({
