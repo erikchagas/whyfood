@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { FaWindowClose } from 'react-icons/fa';
+import { TiMinus, TiPlus } from 'react-icons/ti';
 
 import {
   Header,
@@ -9,7 +11,7 @@ import {
   Modal,
   ModalCard,
   ModalHeader,
-  ModalClose,
+  ModalCloseContainer,
   ModalName,
   ModalImg,
   ModalPrice,
@@ -18,13 +20,19 @@ import {
   ModalOptionHeader,
   ModalOptionTitle,
   ModalOptionStatus,
+  ModalMinMax,
+  ModalRequired,
   ModalOptionList,
   ModalOptionName,
   ModalOptionPrice,
+  ModalCounter,
+  ModalCounterValue,
   ModalOptionSelect,
+  ModalOptionRadio,
   ModalFooter,
-  ModalPicker,
   ModalConfirm,
+  ModalConfirmTitle,
+  ModalConfirmValue
 } from './styles';
 
 import api from '../../services/api';
@@ -92,7 +100,9 @@ export default class Main extends Component {
           <Modal key={detail.id} id={detail.id}>
             <ModalCard>
               <ModalHeader>
-                <ModalClose onClickCapture={this.handleClickModalClose} />
+                <ModalCloseContainer>
+                  <FaWindowClose size={20} onClickCapture={this.handleClickModalClose} />
+                </ModalCloseContainer>
                 <ModalName>{detail.name}</ModalName>
                 <ModalPrice>{formatter.format(detail.price)}</ModalPrice>
                 <ModalImg src={detail.image_url} />
@@ -104,7 +114,10 @@ export default class Main extends Component {
                       <ModalOptionHeader>
                         <ModalOptionTitle>{option.title}</ModalOptionTitle>
                         <ModalOptionStatus>
-                          {option.type !== 'single' ? '' : ''}
+                          {option.max &&
+                            <ModalMinMax>{`0 / ${option.max}`}</ModalMinMax>}
+                          {option.required &&
+                            <ModalRequired>OBRIGATÓRIO</ModalRequired>}
                         </ModalOptionStatus>
                       </ModalOptionHeader>
                       {
@@ -112,15 +125,31 @@ export default class Main extends Component {
                           <ModalOptionList key={value.id}>
                             <ModalOptionName>{value.name}</ModalOptionName>
                             <ModalOptionPrice>{formatter.format(value.price)}</ModalOptionPrice>
-                            <ModalOptionSelect />
+                            <ModalOptionSelect>
+                              {option.type === 'single' ?
+                                <ModalOptionRadio type="radio" /> :
+                                <ModalCounter>
+                                  <TiMinus />
+                                  <ModalCounterValue></ModalCounterValue>
+                                  <TiPlus />
+                                </ModalCounter>
+                              }
+                            </ModalOptionSelect>
                           </ModalOptionList>
                         )}
                     </ModalOption>
                   ))}
               </ModalContent>
               <ModalFooter>
-                <ModalPicker />
-                <ModalConfirm>Adicionar</ModalConfirm>
+                <ModalCounter>
+                  <TiMinus />
+                  <ModalCounterValue></ModalCounterValue>
+                  <TiPlus />
+                </ModalCounter>
+                <ModalConfirm>
+                  <ModalConfirmTitle>Adicionar</ModalConfirmTitle>
+                  <ModalConfirmValue>R$ 10,00</ModalConfirmValue>
+                </ModalConfirm>
               </ModalFooter>
             </ModalCard>
           </Modal>
