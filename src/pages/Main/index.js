@@ -22,7 +22,8 @@ export default class Main extends Component {
         obs: '',
         items: []
       },
-      totalPrice: 0
+      totalPrice: 0,
+      isValidated: false
     };
   }
 
@@ -82,9 +83,16 @@ export default class Main extends Component {
   }
 
   handleChangeModalOptionRadio = (e) => {
-    const { detail, totalPrice } = this.state;
+    const { detail, totalPrice, isValidated } = this.state;
     const option = Number(e.target.dataset.option);
     const value  = Number(e.target.dataset.value);
+    const checkRequired = () => {
+      console.log('handleChangeModalOptionRadio --> ', this.state);
+
+      let filtered = detail.options.filter((element) =>{
+        return element.required;
+      });
+    }
 
     let indexOption = detail.options.findIndex((element) =>{
       return element.id === option;
@@ -96,15 +104,19 @@ export default class Main extends Component {
 
     let newState = Object.assign({}, this.state);
     newState.order.items[indexOption].value = value;
-    this.setState(newState, () => console.log('handleChangeModalOptionRadio --> ', this.state));
+    this.setState(newState, checkRequired);
 
     this.setState({
       totalPrice: totalPrice + detail.options[indexOption].values[indexValue].price
-    })
+    });
+  }
+
+  handleClickModalConfirmValue = (e) => {
+    console.log('handleClickModalConfirmValue');
   }
 
   render() {
-    const { products, detail, order, totalPrice } = this.state;
+    const { products, detail, order, totalPrice, isValidated } = this.state;
     const formatter = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
@@ -132,7 +144,9 @@ export default class Main extends Component {
             order={order}
             handleClickModalClose={this.handleClickModalClose}
             handleChangeModalOptionRadio={this.handleChangeModalOptionRadio}
+            handleClickModalConfirmValue={this.handleClickModalConfirmValue}
             totalPrice={totalPrice}
+            isValidated={isValidated}
           />
         )}
       </>
