@@ -37,7 +37,9 @@ const FinishOrder = ({
   order,
   handleClickModalClose,
   handleChangeModalOptionRadio,
+  handleClickModalConfirmValue,
   totalPrice,
+  isValidated,
 }) => (
   <>
     <Modal key={detail.id} id={detail.id}>
@@ -53,7 +55,12 @@ const FinishOrder = ({
           order={order}
           handleChangeModalOptionRadio={handleChangeModalOptionRadio}
         />
-        <Footer formatter={formatter} totalPrice={totalPrice} />
+        <Footer
+          formatter={formatter}
+          totalPrice={totalPrice}
+          handleClickModalConfirmValue={handleClickModalConfirmValue}
+          isValidated={isValidated}
+        />
       </ModalCard>
     </Modal>
   </>
@@ -122,7 +129,12 @@ const Content = ({
   </>
 );
 
-const Footer = ({ formatter, totalPrice }) => (
+const Footer = ({
+  formatter,
+  totalPrice,
+  handleClickModalConfirmValue,
+  isValidated,
+}) => (
   <>
     <ModalFooter>
       <ModalCounter>
@@ -130,7 +142,10 @@ const Footer = ({ formatter, totalPrice }) => (
         <ModalCounterValue />
         <TiPlus />
       </ModalCounter>
-      <ModalConfirm>
+      <ModalConfirm
+        validated={isValidated}
+        onClick={handleClickModalConfirmValue}
+      >
         <ModalConfirmTitle>Adicionar</ModalConfirmTitle>
         <ModalConfirmValue>{formatter.format(totalPrice)}</ModalConfirmValue>
       </ModalConfirm>
@@ -174,7 +189,9 @@ FinishOrder.propTypes = {
   }).isRequired,
   handleClickModalClose: PropTypes.func.isRequired,
   handleChangeModalOptionRadio: PropTypes.func.isRequired,
+  handleClickModalConfirmValue: PropTypes.func.isRequired,
   totalPrice: PropTypes.number.isRequired,
+  isValidated: PropTypes.bool.isRequired,
 };
 Header.propTypes = {
   formatter: PropTypes.PropTypes.shape({
@@ -244,6 +261,8 @@ Footer.propTypes = {
     format: PropTypes.func,
   }).isRequired,
   totalPrice: PropTypes.number.isRequired,
+  handleClickModalConfirmValue: PropTypes.func.isRequired,
+  isValidated: PropTypes.bool.isRequired,
 };
 
 export default FinishOrder;
