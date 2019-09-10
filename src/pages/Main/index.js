@@ -111,8 +111,8 @@ export default class Main extends Component {
     });
   }
 
-  handleClickModalConfirmValue = (e) => {
-    console.log('handleClickModalConfirmValue');
+  handleClickModalConfirm = (e) => {
+    console.log('handleClickModalConfirm');
   }
 
   render() {
@@ -144,7 +144,7 @@ export default class Main extends Component {
             order={order}
             handleClickModalClose={this.handleClickModalClose}
             handleChangeModalOptionRadio={this.handleChangeModalOptionRadio}
-            handleClickModalConfirmValue={this.handleClickModalConfirmValue}
+            handleClickModalConfirm={this.handleClickModalConfirm}
             totalPrice={totalPrice}
             isValidated={isValidated}
           />

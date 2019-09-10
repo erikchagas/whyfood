@@ -37,7 +37,7 @@ const FinishOrder = ({
   order,
   handleClickModalClose,
   handleChangeModalOptionRadio,
-  handleClickModalConfirmValue,
+  handleClickModalConfirm,
   totalPrice,
   isValidated,
 }) => (
@@ -58,7 +58,7 @@ const FinishOrder = ({
         <Footer
           formatter={formatter}
           totalPrice={totalPrice}
-          handleClickModalConfirmValue={handleClickModalConfirmValue}
+          handleClickModalConfirm={handleClickModalConfirm}
           isValidated={isValidated}
         />
       </ModalCard>
@@ -132,7 +132,7 @@ const Content = ({
 const Footer = ({
   formatter,
   totalPrice,
-  handleClickModalConfirmValue,
+  handleClickModalConfirm,
   isValidated,
 }) => (
   <>
@@ -142,10 +142,7 @@ const Footer = ({
         <ModalCounterValue />
         <TiPlus />
       </ModalCounter>
-      <ModalConfirm
-        validated={isValidated}
-        onClick={handleClickModalConfirmValue}
-      >
+      <ModalConfirm validated={isValidated} onClick={handleClickModalConfirm}>
         <ModalConfirmTitle>Adicionar</ModalConfirmTitle>
         <ModalConfirmValue>{formatter.format(totalPrice)}</ModalConfirmValue>
       </ModalConfirm>
@@ -189,7 +186,7 @@ FinishOrder.propTypes = {
   }).isRequired,
   handleClickModalClose: PropTypes.func.isRequired,
   handleChangeModalOptionRadio: PropTypes.func.isRequired,
-  handleClickModalConfirmValue: PropTypes.func.isRequired,
+  handleClickModalConfirm: PropTypes.func.isRequired,
   totalPrice: PropTypes.number.isRequired,
   isValidated: PropTypes.bool.isRequired,
 };
@@ -261,7 +258,7 @@ Footer.propTypes = {
     format: PropTypes.func,
   }).isRequired,
   totalPrice: PropTypes.number.isRequired,
-  handleClickModalConfirmValue: PropTypes.func.isRequired,
+  handleClickModalConfirm: PropTypes.func.isRequired,
   isValidated: PropTypes.bool.isRequired,
 };
 
