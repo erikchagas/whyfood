@@ -23,7 +23,7 @@ export default class Main extends Component {
         items: []
       },
       totalPrice: 0,
-      isValidated: false
+      isValidated: true
     };
   }
 
